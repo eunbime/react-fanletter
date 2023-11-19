@@ -1,75 +1,117 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import uuid from "react-uuid";
+import { LetterContext } from "context/LetterContext";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 const StList = styled.div`
-  max-width: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 1rem;
-  padding: 1rem 0;
+  margin-top: 1rem;
 `;
 
 const StLetter = styled.ul`
-  width: 500px;
+  max-width: 650px;
+  padding: 1rem;
   margin: 0 auto;
-  padding: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  background-color: var(--mainWhite);
+  border-radius: 1rem;
+  transition: 0.3s;
+  &:hover {
+    background-color: #eee;
+  }
 `;
 
-const LetterList = ({ letterList, selectedMember }) => {
-  let today = new Date();
+const ProFileContainer = styled.section`
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 1rem 0;
+  border-bottom: solid 1px #d4d4d4;
+`;
 
-  const initialArray = [
-    {
-      id: uuid(),
-      nickName: "name1",
-      contexts: "hi",
-      member: "카리나",
-      time: today.toLocaleString(),
-    },
-    {
-      id: uuid(),
-      nickName: "name2",
-      contexts: "hi2",
-      member: "윈터",
-      time: today.toLocaleString(),
-    },
-    {
-      id: uuid(),
-      nickName: "name3",
-      contexts: "hi3",
-      member: "지젤",
-      time: today.toLocaleString(),
-    },
-    {
-      id: uuid(),
-      nickName: "name4",
-      contexts: "hi4",
-      member: "닝닝",
-      time: today.toLocaleString(),
-    },
-  ];
+const MemberProfile = styled.div`
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: gray;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+`;
+
+const StContent = styled.li`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 550px;
+  height: 20px;
+`;
+
+const LetterList = () => {
+  const location = useLocation();
+  const filteredLetters = location.state;
+
+  const [letterList, setLetterList, selectedMember] = useContext(LetterContext);
+
+  useEffect(() => {
+    if (filteredLetters) setLetterList(filteredLetters);
+  }, [filteredLetters]);
 
   return (
     <StList>
       {letterList
         .filter((item) => {
-          return item.member === selectedMember;
+          return item.member === selectedMember || selectedMember === "";
         })
         .map((item) => {
-          const { id, nickName, contexts, time, member } = item;
+          const {
+            id,
+            nickname,
+            content,
+            createdAt,
+            member,
+            avatar,
+            memberPhoto,
+          } = item;
+
           return (
-            <Link to={`/letter/${id}`} key={id}>
-              <StLetter style={{ border: "solid 1px #222" }}>
-                <li>To.{member}</li>
-                <li>{nickName}</li>
-                <li>{time}</li>
-                <li>{contexts}</li>
+            <Link
+              to={`/letter/${id}`}
+              key={id}
+              state={{
+                data: item,
+              }}
+            >
+              <StLetter>
+                <ProFileContainer>
+                  <li>
+                    <MemberProfile>
+                      <img src={avatar} alt="" width="50px" />
+                    </MemberProfile>
+                    <span>From.{nickname}</span>
+                  </li>
+                  <li
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-end",
+                    }}
+                  >
+                    <MemberProfile>
+                      <img
+                        src={memberPhoto}
+                        alt="member-profile"
+                        width="50px"
+                      />
+                    </MemberProfile>
+                    <span>To.{member}</span>
+                  </li>
+                </ProFileContainer>
+                <li>{createdAt}</li>
+                <StContent>{content}</StContent>
               </StLetter>
             </Link>
           );
@@ -78,4 +120,4 @@ const LetterList = ({ letterList, selectedMember }) => {
   );
 };
 
-export default LetterList;
+export default React.memo(LetterList);
