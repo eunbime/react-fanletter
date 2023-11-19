@@ -1,12 +1,9 @@
-import React, { useCallback, useState } from "react";
+import React, { useContext, useState } from "react";
 import { data } from "../shared/data";
 import LetterForm from "../components/LetterForm";
 import LetterList from "../components/LetterList";
 import styled from "styled-components";
-import uuid from "react-uuid";
-
-const jsonData = require("../letterData.json");
-let today = new Date();
+import { LetterContext } from "context/LetterContext";
 
 const StContainer = styled.div`
   width: 100%;
@@ -82,52 +79,14 @@ const InputBox = styled.div`
 `;
 
 function Letter() {
-  const [letterList, setLetterList] = useState(jsonData);
-  const [nickname, setNickname] = useState("");
-  const [content, setContent] = useState("");
-  const [member, setMember] = useState("카리나");
-  const [memberPhoto, setMemberPhoto] = useState("");
-  const [selectedMember, setSelectedMember] = useState("");
+  const [letterList, , selectedMember, setSelectedMember] =
+    useContext(LetterContext);
+  console.log(letterList);
+
   const [modalOpen, setModalOpen] = useState(false);
-
-  const handleNickname = useCallback((e) => {
-    setNickname(e.target.value);
-  }, []);
-
-  const handleContent = (e) => {
-    setContent(e.target.value);
-  };
-
-  const handleMember = (e) => {
-    const photo = data.find((item) => item.member === e.target.value);
-    setMember(e.target.value);
-    setMemberPhoto(photo.memberPhoto);
-  };
 
   const selectedMemberHandler = (selectedMember) => {
     setSelectedMember(selectedMember);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (nickname === "" || content === "")
-      return alert("닉네임과 내용을 입력해주세요");
-
-    const newLetter = {
-      id: uuid(),
-      nickname,
-      content,
-      member,
-      memberPhoto,
-      createdAt: today.toLocaleString(),
-      avatar:
-        "https://i.namu.wiki/i/M0j6sykCciGaZJ8yW0CMumUigNAFS8Z-dJA9h_GKYSmqqYSQyqJq8D8xSg3qAz2htlsPQfyHZZMmAbPV-Ml9UA.webp",
-    };
-    const newLetterList = [newLetter, ...letterList];
-    setLetterList(newLetterList);
-    setNickname("");
-    setContent("");
-    setSelectedMember(member);
   };
 
   const handleModal = () => {
@@ -157,27 +116,14 @@ function Letter() {
       </StButtonSection>
 
       {modalOpen ? (
-        <LetterForm
-          handleNickname={handleNickname}
-          handleContent={handleContent}
-          handleMember={handleMember}
-          handleSubmit={handleSubmit}
-          nickname={nickname}
-          content={content}
-          setModalOpen={setModalOpen}
-        />
+        <LetterForm setModalOpen={setModalOpen} />
       ) : (
         <InputBox onClick={handleModal}>
           아티스트를 위한 팬레터를 작성해주세요!
         </InputBox>
       )}
 
-      <LetterList
-        letterList={letterList}
-        selectedMember={selectedMember}
-        setLetterList={setLetterList}
-        setContent={setContent}
-      />
+      <LetterList selectedMember={selectedMember} />
     </StContainer>
   );
 }

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { LetterContext } from "context/LetterContext";
+import React, { useContext, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -82,13 +83,21 @@ const StContent = styled.li`
 `;
 
 const DetailLetter = () => {
-  const navigate = useNavigate();
+  // context로 값 가져오기
+  const [letterList] = useContext(LetterContext);
 
   // 전 페이지 값 가져오기
+  // 1) useLoacation 사용 방법
   const location = useLocation();
   const { id, nickname, avatar, member, memberPhoto, createdAt, content } =
     location.state.data;
-  const letterList = location.state.letterList;
+
+  // 2) useParams 사용 방법
+  // const params = useParams();
+  // const { id, nickname, avatar, member, memberPhoto, createdAt, content } =
+  //   letterList.find((item) => item.id === params.id);
+
+  const navigate = useNavigate();
 
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState("");
@@ -111,7 +120,7 @@ const DetailLetter = () => {
   };
 
   const handleSubmit = (id) => {
-    if (window.confirm("정말 수정하시겠습니까?")) {
+    if (window.confirm("수정한 내용을 적용하시겠습니까?")) {
       const newEditedList = letterList.map((item) => {
         return item.id === id ? { ...item, content: editContent } : item;
       });

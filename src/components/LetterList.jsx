@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { LetterContext } from "context/LetterContext";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
@@ -49,14 +50,11 @@ const StContent = styled.li`
   height: 20px;
 `;
 
-const LetterList = ({
-  letterList,
-  selectedMember,
-  setLetterList,
-  setContent,
-}) => {
+const LetterList = ({ selectedMember }) => {
   const location = useLocation();
   const filteredLetters = location.state;
+
+  const [letterList, setLetterList] = useContext(LetterContext);
 
   useEffect(() => {
     if (filteredLetters) setLetterList(filteredLetters);
@@ -85,7 +83,6 @@ const LetterList = ({
               key={id}
               state={{
                 data: item,
-                letterList: letterList,
               }}
             >
               <StLetter>

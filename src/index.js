@@ -4,13 +4,13 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./reset.css";
-import { LetterContext } from "context/LetterContext";
+import { LetterContextProvider } from "context/LetterContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <LetterContext.Provider>
+  <LetterContextProvider>
     <App />
-  </LetterContext.Provider>
+  </LetterContextProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

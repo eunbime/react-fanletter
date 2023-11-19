@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { data } from "../shared/data";
+import { LetterContext } from "context/LetterContext";
+import uuid from "react-uuid";
 
 const StForm = styled.form`
   display: flex;
@@ -71,15 +73,45 @@ const StButton = styled.button`
   }
 `;
 
-const LetterForm = ({
-  handleNickname,
-  handleContent,
-  handleMember,
-  handleSubmit,
-  nickname,
-  content,
-  setModalOpen,
-}) => {
+const LetterForm = ({ setModalOpen }) => {
+  let today = new Date();
+
+  const [letterList, setLetterList, , setSelectedMember] =
+    useContext(LetterContext);
+
+  const [nickname, setNickname] = useState("");
+  const [content, setContent] = useState("");
+  const [member, setMember] = useState("카리나");
+  const [memberPhoto, setMemberPhoto] = useState("");
+
+  const handleMember = (e) => {
+    const photo = data.find((item) => item.member === e.target.value);
+    setMember(e.target.value);
+    setMemberPhoto(photo.memberPhoto);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (nickname === "" || content === "")
+      return alert("닉네임과 내용을 입력해주세요");
+
+    const newLetter = {
+      id: uuid(),
+      nickname,
+      content,
+      member,
+      memberPhoto,
+      createdAt: today.toLocaleString(),
+      avatar:
+        "https://i.namu.wiki/i/M0j6sykCciGaZJ8yW0CMumUigNAFS8Z-dJA9h_GKYSmqqYSQyqJq8D8xSg3qAz2htlsPQfyHZZMmAbPV-Ml9UA.webp",
+    };
+    const newLetterList = [newLetter, ...letterList];
+    setLetterList(newLetterList);
+    setSelectedMember(member);
+    setNickname("");
+    setContent("");
+  };
+
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -98,11 +130,19 @@ const LetterForm = ({
         >
           <StSection>
             <StLabel>닉네임</StLabel>
-            <StInput type="text" value={nickname} onChange={handleNickname} />
+            <StInput
+              type="text"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+            />
           </StSection>
           <StSection>
             <StLabel>내용</StLabel>
-            <StTextArea type="text" value={content} onChange={handleContent} />
+            <StTextArea
+              type="text"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
           </StSection>
           <StSection>
             <StLabel>아티스트를 선택해주세요.</StLabel>
