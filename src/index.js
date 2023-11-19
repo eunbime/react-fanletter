@@ -4,13 +4,16 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./reset.css";
-import { LetterContextProvider } from "context/LetterContext";
+import { Provider } from "react-redux";
+import store from "redux/config/configStore";
+
+console.log(store);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <LetterContextProvider>
+  <Provider store={store}>
     <App />
-  </LetterContextProvider>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

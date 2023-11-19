@@ -1,5 +1,5 @@
-import { LetterContext } from "context/LetterContext";
 import React, { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
@@ -51,21 +51,22 @@ const StContent = styled.li`
 `;
 
 const LetterList = () => {
+  const letterList = useSelector((state) => state.letterList.letterList);
+  console.log(letterList);
   const location = useLocation();
   const filteredLetters = location.state;
+  // const [letterList, setLetterList, selectedMember] = useContext(LetterContext);
 
-  const [letterList, setLetterList, selectedMember] = useContext(LetterContext);
-
-  useEffect(() => {
-    if (filteredLetters) setLetterList(filteredLetters);
-  }, [filteredLetters]);
+  // useEffect(() => {
+  //   if (filteredLetters) setLetterList(filteredLetters);
+  // }, [filteredLetters]);
 
   return (
     <StList>
       {letterList
-        .filter((item) => {
-          return item.member === selectedMember || selectedMember === "";
-        })
+        // .filter((item) => {
+        //   return item.member === selectedMember || selectedMember === "";
+        // })
         .map((item) => {
           const {
             id,

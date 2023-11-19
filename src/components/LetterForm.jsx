@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { data } from "../shared/data";
-import { LetterContext } from "context/LetterContext";
 import uuid from "react-uuid";
+import { useDispatch, useSelector } from "react-redux";
+import { addLetter } from "redux/modules/letterData";
 
 const StForm = styled.form`
   display: flex;
@@ -74,15 +75,17 @@ const StButton = styled.button`
 `;
 
 const LetterForm = ({ setModalOpen }) => {
-  let today = new Date();
-
-  const [letterList, setLetterList, , setSelectedMember] =
-    useContext(LetterContext);
-
+  const store = useSelector((state) => state);
+  console.log(store);
   const [nickname, setNickname] = useState("");
   const [content, setContent] = useState("");
   const [member, setMember] = useState("카리나");
   const [memberPhoto, setMemberPhoto] = useState("");
+  const [selectedMember, setSelectedMember] = useState("");
+
+  let today = new Date();
+
+  const dispatch = useDispatch();
 
   const handleMember = (e) => {
     const photo = data.find((item) => item.member === e.target.value);
@@ -95,18 +98,18 @@ const LetterForm = ({ setModalOpen }) => {
     if (nickname === "" || content === "")
       return alert("닉네임과 내용을 입력해주세요");
 
-    const newLetter = {
-      id: uuid(),
-      nickname,
-      content,
-      member,
-      memberPhoto,
-      createdAt: today.toLocaleString(),
-      avatar:
-        "https://i.namu.wiki/i/M0j6sykCciGaZJ8yW0CMumUigNAFS8Z-dJA9h_GKYSmqqYSQyqJq8D8xSg3qAz2htlsPQfyHZZMmAbPV-Ml9UA.webp",
-    };
-    const newLetterList = [newLetter, ...letterList];
-    setLetterList(newLetterList);
+    dispatch(
+      addLetter({
+        id: uuid(),
+        nickname,
+        content,
+        member,
+        memberPhoto,
+        createdAt: today.toLocaleString(),
+        avatar:
+          "https://i.namu.wiki/i/M0j6sykCciGaZJ8yW0CMumUigNAFS8Z-dJA9h_GKYSmqqYSQyqJq8D8xSg3qAz2htlsPQfyHZZMmAbPV-Ml9UA.webp",
+      })
+    );
     setSelectedMember(member);
     setNickname("");
     setContent("");

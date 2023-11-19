@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { data } from "../shared/data";
 import LetterForm from "../components/LetterForm";
 import LetterList from "../components/LetterList";
 import styled from "styled-components";
-import { LetterContext } from "context/LetterContext";
+import { useSelector } from "react-redux";
 
 const StContainer = styled.div`
   width: 100%;
@@ -79,9 +79,9 @@ const InputBox = styled.div`
 `;
 
 function Letter() {
-  const [letterList, , selectedMember, setSelectedMember] =
-    useContext(LetterContext);
+  const letterList = useSelector((state) => state.letterList.letterList);
   console.log(letterList);
+  const [selectedMember, setSelectedMember] = useState("");
 
   const [modalOpen, setModalOpen] = useState(false);
 
