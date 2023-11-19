@@ -50,11 +50,11 @@ const StContent = styled.li`
   height: 20px;
 `;
 
-const LetterList = ({ selectedMember }) => {
+const LetterList = () => {
   const location = useLocation();
   const filteredLetters = location.state;
 
-  const [letterList, setLetterList] = useContext(LetterContext);
+  const [letterList, setLetterList, selectedMember] = useContext(LetterContext);
 
   useEffect(() => {
     if (filteredLetters) setLetterList(filteredLetters);

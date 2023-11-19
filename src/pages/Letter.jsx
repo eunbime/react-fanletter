@@ -123,7 +123,7 @@ function Letter() {
         </InputBox>
       )}
 
-      <LetterList selectedMember={selectedMember} />
+      <LetterList />
     </StContainer>
   );
 }
