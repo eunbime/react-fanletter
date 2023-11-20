@@ -82,10 +82,11 @@ const LetterForm = ({ setModalOpen }) => {
   const [nickname, setNickname] = useState("");
   const [content, setContent] = useState("");
   const [member, setMember] = useState("카리나");
-  const [memberPhoto, setMemberPhoto] = useState("");
+  const [memberPhoto, setMemberPhoto] = useState("karina.jpeg");
 
   const handleMember = (e) => {
     const photo = data.find((item) => item.member === e.target.value);
+    console.log(photo);
     setMember(e.target.value);
     setMemberPhoto(photo.memberPhoto);
   };
