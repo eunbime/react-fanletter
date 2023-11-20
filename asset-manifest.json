@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/react-fanletter/static/css/main.90f6920e.css",
-    "main.js": "/react-fanletter/static/js/main.8dd65bad.js",
-    "static/js/787.0cc8d614.chunk.js": "/react-fanletter/static/js/787.0cc8d614.chunk.js",
-    "index.html": "/react-fanletter/index.html",
-    "main.90f6920e.css.map": "/react-fanletter/static/css/main.90f6920e.css.map",
-    "main.8dd65bad.js.map": "/react-fanletter/static/js/main.8dd65bad.js.map",
-    "787.0cc8d614.chunk.js.map": "/react-fanletter/static/js/787.0cc8d614.chunk.js.map"
+    "main.css": "/https;//eunbime.github.io/react-fanletter/static/css/main.90f6920e.css",
+    "main.js": "/https;//eunbime.github.io/react-fanletter/static/js/main.3e3295e5.js",
+    "static/js/787.0cc8d614.chunk.js": "/https;//eunbime.github.io/react-fanletter/static/js/787.0cc8d614.chunk.js",
+    "index.html": "/https;//eunbime.github.io/react-fanletter/index.html",
+    "main.90f6920e.css.map": "/https;//eunbime.github.io/react-fanletter/static/css/main.90f6920e.css.map",
+    "main.3e3295e5.js.map": "/https;//eunbime.github.io/react-fanletter/static/js/main.3e3295e5.js.map",
+    "787.0cc8d614.chunk.js.map": "/https;//eunbime.github.io/react-fanletter/static/js/787.0cc8d614.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.90f6920e.css",
-    "static/js/main.8dd65bad.js"
+    "static/js/main.3e3295e5.js"
   ]
 }
